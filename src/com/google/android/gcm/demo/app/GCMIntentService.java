@@ -15,9 +15,7 @@
  */
 package com.google.android.gcm.demo.app;
 
-import static com.google.android.gcm.demo.app.CommonUtilities.SENDER_ID;
-import static com.google.android.gcm.demo.app.CommonUtilities.displayMessage;
-
+import static com.google.android.gcm.demo.app.CommonUtilities.*;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,6 +27,21 @@ import com.google.android.gcm.GCMBaseIntentService;
 
 /**
  * IntentService responsible for handling GCM messages.
+ * GCMIntentServiceクラスは、IntentServiceから派生したGCMBaseIntentServiceを継承しています。
+ * GCMからのIntentに対して応答するクラスです。このサービスはバックグランドでGCMから受信して、
+ * レジストレーションIDの登録・削除したり、メッセージを受信して、
+ * クライアントアプリとステータスバーに通知します。
+ * オーバーライドしないといけない主要なメソッドは次のものです。
+ * 1. protected void onRegistered(Context context, String registrationId)
+ * 2. protected void onUnregistered(Context context, String registrationId)
+ * 3. protected void onMessage(Context context, Intent intent)
+ * 4. public void onError(Context context, String errorId)
+ * 
+ * onRegisteredとonUnregisteredは、それぞれServerUtilitiesクラスのメソッドを使って、
+ * 登録・解除を実行します。onMessageは今回実装するサーバからのメッセージを処理します。
+ * 実際はGCMサーバからメッセージが配信されます。
+ * onErrorは端末の登録・解除でGCMでエラーが発生したときの処理を実行します。
+ * 
  */
 public class GCMIntentService extends GCMBaseIntentService {
 
